@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T-Shirt Ordering Form</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background: white /* Gradient background */
+          margin: 0;
+          padding: 20px;
+      }
+      h1 {
+          text-align: center;
+          color: #333;
+      }
+      form {
+          background: rgb(201, 147, 147);
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          max-width: 600px;
+          margin: auto;
+      }
+      section {
+          margin-bottom: 20px;
+      }
+      fieldset {
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 10px;
+      }
+      legend {
+          font-weight: bold;
+          padding: 0 10px;
+      }
+      p {
+          margin: 10px 0;
+      }
+      label {
+          display: block;
+          margin-bottom: 5px;
+      }
+      input[type="text"], input[type="number"], input[type="email"], input[type="tel"], input[type="date"], select, textarea {
+          width: calc(100% - 12px);
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 16px;
+      }
+      button {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 10px 15px;
+          cursor: pointer;
+          margin-right: 10px;
+          font-size: 16px;
+      }
+      button[type="reset"] {
+          background-color: #f44336;
+      }
+      button:hover {
+          opacity: 0.9;
+      }
+      .receipt {
+          display: none;
+          border: 1px solid #000;
+          padding: 20px;
+          margin-top: 20px;
+          background-color: #f9f9f9;
+          border-radius: 8px;
+      }
+      .receipt h2 {
+          margin-top: 0;
+          color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TeeTrendz</h1>
+    <form
+      action="/submit-order"
+      method="post"
+      id="order-form"
+      onsubmit="return validateForm()"
+    >
+      <section>
+        <h2>Shirt Details</h2>
+        <fieldset>
+          <legend>Shirt Information</legend>
+          <p>
+            <label for="tagline">Tagline on the Shirt:</label>
+            <input
+              type="text"
+              name="tagline"
+              id="tagline"
+              required
+              placeholder="Enter the tagline"
+            />
+          </p>
+          <p>
+            <label for="quantity">Quantity:</label>
+            <input
+              type="number"
+              name="quantity"
+              id="quantity"
+              min="1"
+              required
+              placeholder="Enter quantity"
+            />
+          </p>
+          <p>
+            <label for="size">Size:</label>
+            <select name="size" id="size" required>
+              <option value="">Select a size</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="xlarge">X-Large</option>
+            </select>
+          </p>
+          <p>
+            <label for="color">Color:</label>
+            <select name="color" id="color" required>
+              <option value="">Select a color</option>
+              <option value="red">Red</option>
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+            </select>
+          </p>
+          <p>
+            <label for="delivery-date">Delivery Date:</label>
+            <input
+              type="date"
+              id="delivery-date"
+              name="delivery-date"
+              required
+            />
+          </p>
+          <p>
+            <label for="special-instructions">Special Instructions:</label>
+            <input
+              type="text"
+              id="special-instructions"
+              name="special-instructions"
+              list="instructions-options"
+              placeholder="Choose or enter instructions"
+            />
+            <datalist id="instructions-options">
+              <option value="Add gift wrap"></option>
+              <option value="Include a personalized note"></option>
+              <option value="Express shipping"></option>
+            </datalist>
+          </p>
+          <p>
+            <details>
+              <summary>Additional Information</summary>
+              <p>
+                Please provide any extra details or special instructions for
+                your order here. This could include specific requests or
+                preferences for your t-shirt design.
+              </p>
+            </details>
+          </p>
+        </fieldset>
+      </section>
+
+      <section>
+        <h2>Delivery Information</h2>
+        <fieldset>
+          <legend>Recipient Details</legend>
+          <p>
+            <label for="name">Recipient's Name:</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              placeholder="Enter recipient's name"
+            />
+          </p>
+          <p>
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              placeholder="Enter email address"
+            />
+          </p>
+          <p>
+            <label for="phone">Phone Number:</label>
+            <input
+              type="tel"
+              name="phone"
+              id="phone"
+              required
+              placeholder="Enter phone number"
+            />
+          </p>
+          <p>
+            <label for="address">Address:</label>
+            <input
+              type="text"
+              name="address"
+              id="address"
+              required
+              placeholder="Enter delivery address"
+            />
+          </p>
+        </fieldset>
+      </section>
+
+      <section>
+        <h2>Additional Information</h2>
+        <p>
+          <label for="comments">Additional Comments:</label>
+          <textarea
+            name="comments"
+            id="comments"
+            rows="4"
+            placeholder="Enter any additional comments or special instructions"
+          ></textarea>
+        </p>
+      </section>
+
+      <section>
+        <p>
+          <button type="submit">Submit Order</button>
+          <button type="reset">Reset Form</button>
+        </p>
+      </section>
+    </form>
+
+    <!-- Receipt Section -->
+    <div id="receipt" class="receipt">
+      <h2>Order Receipt</h2>
+      <p id="receipt-date"></p>
+      <p id="receipt-details"></p>
+    </div>
+
+    <script>
+      function validateForm() {
+        // Validate Special Instructions
+        var instructions = document.getElementById(
+          "special-instructions"
+        ).value;
+        if (instructions.length > 100) {
+          alert("Special Instructions cannot exceed 100 characters.");
+          return false;
+        }
+
+        // Validate Phone Number
+        var phone = document.getElementById("phone").value;
+        if (!/^\d{10}$/.test(phone)) {
+          alert("Phone number must be exactly 10 digits.");
+          return false;
+        }
+
+        // Generate and Show Receipt
+        generateReceipt();
+        return false; // Prevent form submission for demo purposes
+      }
+
+      function generateReceipt() {
+        var date = new Date();
+        var formattedDate = date.toLocaleDateString("en-US");
+
+        var receipt = document.getElementById("receipt");
+        var receiptDate = document.getElementById("receipt-date");
+        var receiptDetails = document.getElementById("receipt-details");
+
+        receiptDate.innerText = "Date of Receipt: " + formattedDate;
+
+        var formData = new FormData(document.getElementById("order-form"));
+        var details = "Order Details:\n";
+        formData.forEach((value, key) => {
+          details += `${key}: ${value}\n`;
+        });
+        receiptDetails.innerText = details;
+
+        receipt.style.display = "block";
+      }
+
+      document
+        .getElementById("order-form")
+        .addEventListener("reset", function () {
+          document.getElementById("receipt").style.display = "none"; // Hide the receipt
+        });
+    </script>
+  </body>
+</html>
